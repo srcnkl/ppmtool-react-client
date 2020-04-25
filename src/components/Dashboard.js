@@ -8,12 +8,13 @@ import { getProjects } from "../actions/projectActions";
 import PropTypes from "prop-types";
 
 class Dashboard extends Component {
-  componentDidMount(){
-      this.props.getProjects();
+  componentDidMount() {
+    this.props.getProjects();
   }
   render() {
+    //dashboard parent, project item is child component. bu sebeple child component e değer gonderebilir.
+    const { projects } = this.props.project;
     return (
-      // Dashboard Component (Project Item included)
       <div className="projects">
         <div className="container">
           <div className="row">
@@ -23,7 +24,9 @@ class Dashboard extends Component {
               <CreateProjectButton />
               <br />
               <hr />
-              <Projectitems />
+              {projects.map((project) => (
+                <Projectitems key={project.id} project={project} />
+              ))}
             </div>
           </div>
         </div>
@@ -38,7 +41,7 @@ Dashboard.propTypes = {
 };
 //state.project deki project bizim state içinde bulunan project tag imiz. index.js te tanımlı. error gibi.
 const mapStateToProps = (state) => ({
-  project: state.project
+  project: state.project,
 });
 
 export default connect(mapStateToProps, { getProjects })(Dashboard);
